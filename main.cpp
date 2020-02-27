@@ -46,22 +46,27 @@ typedef struct node_type{
         node *rptr=NULL;
         mptr=ne;
         int flagg=1;
+        int buddy_count=1;
         while(mptr->next!=NULL&&flag==1){
             if(mptr==dptr){
                 flag=0;
                 mptr->avail=1;
             }
             else{
+                if(mptr->size==dptr->size)
+                    buddy_count++;
+                else
+                    buddy_count==1;
             prev=mptr;
             mptr=mptr->next;
             }
         }if(prev!=NULL) {
-            if (prev->size == mptr->size && prev->avail == true && mptr->avail == true) {
+            if (buddy_count%2==0&&prev->size == mptr->size && prev->avail == true && mptr->avail == true) {
                 prev->next = mptr->next;
                 prev->size = prev->size * 2;
                 rptr = prev;
                 flagg = 0;
-            } else if (mptr->next != NULL && mptr->size == mptr->next->size && mptr->avail == true &&
+            } else if (buddy_count%2!=0&&mptr->next != NULL && mptr->size == mptr->next->size && mptr->avail == true &&
                        mptr->next->avail == true) {
                 mptr->next = mptr->next->next;
                 mptr->size = mptr->size * 2;
